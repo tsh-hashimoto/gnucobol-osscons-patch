@@ -497,3 +497,41 @@ AT_CHECK([${COMPILE} -x prog.cob], [0])
 AT_CHECK([./prog], [0], [Å@Å@Å@Å@Å@])
 
 AT_CLEANUP
+
+AT_SETUP([PIC N Move with NUMERIC items.])
+
+AT_DATA([prog.cob], [
+       IDENTIFICATION   DIVISION.
+       PROGRAM-ID.      prog.
+       DATA             DIVISION.
+       WORKING-STORAGE  SECTION.
+       01 F0 PIC N(5).
+       01 F1 PIC 9(5).
+       01 F2 PIC S9(5).
+       01 F3 PIC 9(5) COMP-3.
+       01 F4 PIC S9(5) COMP.
+       PROCEDURE        DIVISION.
+           MOVE 123 TO F1.
+           MOVE F1 TO F0.
+           DISPLAY F0.
+           MOVE -123 TO F2.
+           MOVE F2 TO F0.
+           DISPLAY F0.
+           MOVE 123 TO F3.
+           MOVE F3 TO F0.
+           DISPLAY F0.
+           MOVE -123 TO F4.
+           MOVE F4 TO F0.
+           DISPLAY F0.
+           STOP RUN.
+])
+
+AT_CHECK([${COMPILE} -x prog.cob], [0])
+AT_CHECK([./prog], [0], 
+[ÇOÇOÇPÇQÇR
+ÇOÇOÇPÇQÇì
+ÇOÇOÇPÇQÇR
+ÇOÇOÇPÇQÇì
+])
+
+AT_CLEANUP
