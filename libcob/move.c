@@ -1859,19 +1859,6 @@ cob_move (cob_field *src_in, cob_field *dst)
 		return;
 	}
 
-	if (COB_FIELD_TYPE (src) != COB_TYPE_GROUP) {
-		if ((!(COB_FIELD_TYPE (src) == COB_TYPE_NATIONAL ||
-		       COB_FIELD_TYPE (src) == COB_TYPE_NATIONAL_EDITED)) &&
-		    (COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL ||
-		     COB_FIELD_TYPE (dst) == COB_TYPE_NATIONAL_EDITED)) {
-			pTmp = judge_hankakujpn_exist (src, dst, &size);
-			if (pTmp != NULL) {
-				src->data = (unsigned char *)pTmp;
-				src->size = size;
-			}
-		}
-	}
-
 	/* Non-elementary move */
 	if (COB_FIELD_TYPE (src) == COB_TYPE_GROUP
 	 || COB_FIELD_TYPE (dst) == COB_TYPE_GROUP) {
@@ -1927,11 +1914,21 @@ cob_move (cob_field *src_in, cob_field *dst)
 				return;
 			}
 		case COB_TYPE_NATIONAL:
+			pTmp = judge_hankakujpn_exist (src, dst, &size);
+			if (pTmp != NULL) {
+				src->data = (unsigned char *)pTmp;
+				src->size = size;
+			}
 			cob_move_alphanum_to_national (src, dst);
-			break;
+			return;
 		case COB_TYPE_NATIONAL_EDITED:
+			pTmp = judge_hankakujpn_exist (src, dst, &size);
+			if (pTmp != NULL) {
+				src->data = (unsigned char *)pTmp;
+				src->size = size;
+			}
 			cob_move_alphanum_to_national_edited (src, dst);
-			break;
+			return;
 		default:
 			cob_move_display_to_alphanum (src, dst);
 			return;
@@ -2269,9 +2266,19 @@ cob_move (cob_field *src_in, cob_field *dst)
 			cob_move_alphanum_to_edited (src, dst);
 			return;
 		case COB_TYPE_NATIONAL_EDITED:
+			pTmp = judge_hankakujpn_exist (src, dst, &size);
+			if (pTmp != NULL) {
+				src->data = (unsigned char *)pTmp;
+				src->size = size;
+			}
 			cob_move_alphanum_to_national_edited (src, dst);
 			break;
 		case COB_TYPE_NATIONAL:
+			pTmp = judge_hankakujpn_exist (src, dst, &size);
+			if (pTmp != NULL) {
+				src->data = (unsigned char *)pTmp;
+				src->size = size;
+			}
 			cob_move_alphanum_to_national (src, dst);
 			break;
 		default:
