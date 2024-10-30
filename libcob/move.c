@@ -1928,10 +1928,10 @@ cob_move (cob_field *src_in, cob_field *dst)
 			}
 		case COB_TYPE_NATIONAL:
 			cob_move_alphanum_to_national (src, dst);
-			break;
+			return;
 		case COB_TYPE_NATIONAL_EDITED:
 			cob_move_alphanum_to_national_edited (src, dst);
-			break;
+			return;
 		default:
 			cob_move_display_to_alphanum (src, dst);
 			return;
